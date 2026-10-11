@@ -23,7 +23,12 @@
           <controls:UsageRing x:Name="ChargeRing" Title="剩余电量" Unit="%" Accent="{DynamicResource AccentBrush}" />
         </Border>
         <Border Grid.Column="1" Style="{StaticResource Card}" Margin="0,0,14,14">
-          <controls:UsageRing x:Name="HealthRing" Title="健康度" Unit="%" Accent="{DynamicResource WarmBrush}" />
+          <StackPanel HorizontalAlignment="Center">
+            <controls:UsageRing x:Name="HealthRing" Title="满充健康度" Unit="%"
+                                Accent="{DynamicResource WarmBrush}" Width="170" Height="170" />
+            <TextBlock x:Name="HealthNoteText" Style="{StaticResource DataLabel}"
+                       Width="190" TextAlignment="Center" TextWrapping="Wrap" Margin="0,7,0,0" />
+          </StackPanel>
         </Border>
         <Border Grid.Column="2" Style="{StaticResource Card}" Margin="0,0,0,14">
           <Grid>

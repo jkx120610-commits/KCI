@@ -94,6 +94,7 @@ public sealed class BatteryInfo
     public double DesignCapacity { get; set; } = double.NaN;
     public double FullChargeCapacity { get; set; } = double.NaN;
     public double CurrentCapacity { get; set; } = double.NaN;
+    public double RawHealthPercent { get; set; } = double.NaN;
     public double Voltage { get; set; } = double.NaN;
     public double Temperature { get; set; } = double.NaN;
     public double PowerMilliWatts { get; set; } = double.NaN;
@@ -102,6 +103,7 @@ public sealed class BatteryInfo
     public bool AcOnline { get; set; }
     public bool IsCharging { get; set; }
     public bool IsDischarging { get; set; }
+    public string HealthNote { get; set; } = "等待读取容量数据";
     public int? CycleCount { get; set; }
     public int? EstimatedRunTimeMinutes { get; set; }
     public string Status { get; set; } = "未知";

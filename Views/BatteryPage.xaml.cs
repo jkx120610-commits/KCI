@@ -22,6 +22,7 @@ public partial class BatteryPage : UserControl
             : "当前设备未检测到电池，或设备由台式机电源直接供电";
         ChargeRing.Value = _battery.ChargePercent;
         HealthRing.Value = _battery.HealthPercent;
+        HealthNoteText.Text = _battery.HealthNote;
         PowerSourceText.Text = _battery.AcOnline ? "交流电已连接" : "电池供电";
         BatteryPowerText.Text = FormatPower(_battery);
         ChargingStateText.Text = _battery.AcOnline

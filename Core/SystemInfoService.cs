@@ -90,6 +90,7 @@ public sealed class SystemInfoService
             ReplaceList(StorageDevices, cache.StorageDevices);
             ReplaceList(Volumes, cache.Volumes);
             Battery = cache.Battery ?? new BatteryInfo();
+            UpdateBatteryHealth(Battery);
             _cacheSavedAt = cache.SavedAt;
             return true;
         }
@@ -477,6 +478,7 @@ public sealed class SystemInfoService
         TryReadBatteryWmi(battery);
         TryReadNativeBatteryState(battery);
         UpdateBatteryPower(battery);
+        UpdateBatteryHealth(battery);
         if (!battery.Present && battery.ChargePercent >= 0)
         {
             battery.Present = true;
@@ -544,13 +546,10 @@ public sealed class SystemInfoService
                 Number(temperature, "Temperature"), Battery.Temperature);
         }
 
-        if (Battery.DesignCapacity > 0 && Battery.FullChargeCapacity > 0)
-        {
-            Battery.HealthPercent = Math.Clamp(
-                Battery.FullChargeCapacity / Battery.DesignCapacity * 100d, 0, 150);
-        }
+        UpdateBatteryHealth(Battery);
         TryReadNativeBatteryState(Battery);
         UpdateBatteryPower(Battery);
+        UpdateBatteryHealth(Battery);
     }
 
     private void TryApplyBatteryReport()
@@ -598,11 +597,7 @@ public sealed class SystemInfoService
                 match.Groups["full"].Value, Battery.FullChargeCapacity);
             Battery.CycleCount = (int)ParseReportNumber(
                 match.Groups["cycles"].Value, Battery.CycleCount ?? 0);
-            if (Battery.DesignCapacity > 0 && Battery.FullChargeCapacity > 0)
-            {
-                Battery.HealthPercent = Math.Clamp(
-                    Battery.FullChargeCapacity / Battery.DesignCapacity * 100d, 0, 150);
-            }
+            UpdateBatteryHealth(Battery);
         }
         catch
         {
@@ -686,11 +681,7 @@ public sealed class SystemInfoService
             battery.Temperature = Number(temperature, "Temperature");
         }
 
-        if (battery.DesignCapacity > 0 && battery.FullChargeCapacity > 0)
-        {
-            battery.HealthPercent = Math.Clamp(
-                battery.FullChargeCapacity / battery.DesignCapacity * 100d, 0, 150);
-        }
+        UpdateBatteryHealth(battery);
     }
 
     private static void TryReadNativeBatteryState(BatteryInfo battery)
@@ -761,6 +752,24 @@ public sealed class SystemInfoService
         {
             battery.PowerMilliWatts = battery.AcOnline ? 0 : double.NaN;
         }
+    }
+
+    private static void UpdateBatteryHealth(BatteryInfo battery)
+    {
+        if (battery.DesignCapacity <= 0 || battery.FullChargeCapacity <= 0)
+        {
+            battery.RawHealthPercent = double.NaN;
+            battery.HealthPercent = double.NaN;
+            battery.HealthNote = "设计容量或满充容量未由 BIOS 提供。";
+            return;
+        }
+
+        var raw = battery.FullChargeCapacity / battery.DesignCapacity * 100d;
+        battery.RawHealthPercent = raw;
+        battery.HealthPercent = Math.Clamp(raw, 0, 100);
+        battery.HealthNote = raw > 100.5
+            ? $"按“满充容量 ÷ 设计容量”计算，与当前电量无关。原始结果 {raw:0.0}% 高于 100%，界面按 100% 显示；常见于校准或设计容量口径差异。"
+            : $"按“满充容量 ÷ 设计容量”计算，与当前是否充满无关：{battery.FullChargeCapacity:0} / {battery.DesignCapacity:0} mWh。";
     }
 
     private void LoadMemory()

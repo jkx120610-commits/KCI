@@ -14,6 +14,7 @@ KCI（Kerwin Computer Insight）是面向 Windows 的硬件信息与系统维护
 - WLAN：当前无线连接、SSID/BSSID、安全协议、信号、频段/信道、链路与实时上下行、测速、
   局域网设备扫描、路由器管理入口和网络优化。
 - 电池：电量、健康度、设计/满充/当前容量、循环次数、充放电状态、Windows 电池报告。
+  健康度口径为“满充容量 ÷ 设计容量”，不使用当前电量，是否充满不影响公式；若满充容量高于设计容量，界面按 100% 显示并保留原始计算结果说明。
 - 屏幕：显示器、分辨率、刷新率、色深、DPI、工作区、纯色与灰阶测试。
 - 内存与存储：RAM 模组与实时占用、SSD/HDD 健康、空间、温度和物理磁盘信息。
 - KCI Help：
@@ -53,3 +54,4 @@ Windows 更新控制策略参考以下开源项目公开的实现思路，并由
 - sivel/speedtest-cli：测速流程与延迟/下载/上传测量思路
 - angryip/ipscan：局域网地址发现思路
 - ChrisTitusTech/winutil：Windows 网络修复命令的组织方式
+- LibreHardwareMonitor 和 Windows `powercfg /batteryreport`：电池满充容量/设计容量与健康度计算口径
