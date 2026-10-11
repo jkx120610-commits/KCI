@@ -1,0 +1,12 @@
+<Window x:Class="KCI.Controls.DisplayTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="KCI 屏幕测试" WindowStyle="None" ResizeMode="NoResize"
+        WindowState="Maximized" Background="Black" Cursor="None"
+        KeyDown="Window_KeyDown" MouseDown="Window_MouseDown">
+  <Grid>
+    <TextBlock x:Name="HintText" Text="单击切换颜色 · Esc 退出"
+               Foreground="#99FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+               Margin="0,0,0,28" FontSize="14" />
+  </Grid>
+</Window>

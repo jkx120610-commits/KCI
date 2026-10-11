@@ -1,0 +1,121 @@
+<UserControl x:Class="KCI.Views.BatteryPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:KCI.Controls">
+  <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <StackPanel Margin="24">
+      <Grid Margin="0,0,0,18">
+        <StackPanel>
+          <TextBlock Text="电池" FontSize="28" FontWeight="SemiBold" />
+          <TextBlock x:Name="BatteryNameText" Style="{StaticResource DataLabel}" Margin="0,5,0,0" />
+        </StackPanel>
+        <Button Content="生成 Windows 电池报告" Style="{StaticResource SecondaryButton}"
+                HorizontalAlignment="Right" VerticalAlignment="Center" Click="ReportButton_Click" />
+      </Grid>
+
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="240" />
+          <ColumnDefinition Width="240" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Border Style="{StaticResource Card}" Margin="0,0,14,14">
+          <controls:UsageRing x:Name="ChargeRing" Title="剩余电量" Unit="%" Accent="{DynamicResource AccentBrush}" />
+        </Border>
+        <Border Grid.Column="1" Style="{StaticResource Card}" Margin="0,0,14,14">
+          <controls:UsageRing x:Name="HealthRing" Title="健康度" Unit="%" Accent="{DynamicResource WarmBrush}" />
+        </Border>
+        <Border Grid.Column="2" Style="{StaticResource Card}" Margin="0,0,0,14">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Text="电量历史" Style="{StaticResource SectionTitle}" />
+            <controls:HistoryChart x:Name="ChargeChart" Grid.Row="1" MinHeight="150"
+                                   Accent="{DynamicResource AccentBrush}" />
+          </Grid>
+        </Border>
+      </Grid>
+
+      <Border Style="{StaticResource Card}" Margin="0,0,0,14">
+        <StackPanel>
+          <TextBlock Text="电池状态" Style="{StaticResource SectionTitle}" />
+          <ItemsControl x:Name="BatteryItems">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <UniformGrid Columns="4" />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <StackPanel Margin="0,0,18,16">
+                  <TextBlock Text="{Binding Label}" Style="{StaticResource DataLabel}" />
+                  <TextBlock Text="{Binding Value}" Style="{StaticResource DataValue}" />
+                </StackPanel>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+      </Border>
+
+      <Border Style="{StaticResource Card}" Margin="0,0,0,14">
+        <StackPanel>
+          <TextBlock Text="供电功率估算" Style="{StaticResource SectionTitle}" />
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+              <TextBlock Text="CPU 功率" Style="{StaticResource DataLabel}" />
+              <TextBlock x:Name="CpuPowerText" Style="{StaticResource DataValue}" Text="--" />
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+              <TextBlock Text="GPU 功率" Style="{StaticResource DataLabel}" />
+              <TextBlock x:Name="GpuPowerText" Style="{StaticResource DataValue}" Text="--" />
+            </StackPanel>
+            <StackPanel Grid.Column="2">
+              <TextBlock Text="其他设备功率" Style="{StaticResource DataLabel}" />
+              <TextBlock x:Name="OtherPowerText" Style="{StaticResource DataValue}" Text="--" />
+            </StackPanel>
+            <StackPanel Grid.Column="3">
+              <TextBlock Text="系统供电估算" Style="{StaticResource DataLabel}" />
+              <TextBlock x:Name="SupplyPowerText" Style="{StaticResource DataValue}" Text="--" />
+            </StackPanel>
+          </Grid>
+          <TextBlock x:Name="PowerEstimateNoteText" Style="{StaticResource DataLabel}"
+                     TextWrapping="Wrap" />
+        </StackPanel>
+      </Border>
+
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Text="充电与放电" Style="{StaticResource SectionTitle}" />
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+              <TextBlock Text="电源" Style="{StaticResource DataLabel}" />
+              <TextBlock x:Name="PowerSourceText" Style="{StaticResource DataValue}" />
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+              <TextBlock Text="电池功率" Style="{StaticResource DataLabel}" />
+              <TextBlock x:Name="BatteryPowerText" Style="{StaticResource DataValue}" />
+            </StackPanel>
+            <StackPanel Grid.Column="2">
+              <TextBlock Text="充放电状态" Style="{StaticResource DataLabel}" />
+              <TextBlock x:Name="ChargingStateText" Style="{StaticResource DataValue}" />
+            </StackPanel>
+          </Grid>
+          <TextBlock x:Name="RuntimeText" Style="{StaticResource DataLabel}" Margin="0,12,0,0" />
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>
