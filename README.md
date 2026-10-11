@@ -2,6 +2,11 @@
 
 KCI（Kerwin Computer Insight）是面向 Windows 的硬件信息与系统维护工具。
 
+## 下载
+
+- GitHub Release: https://github.com/jkx120610-commits/KCI/releases/tag/v1.0.0
+- Windows x64 便携版: https://github.com/jkx120610-commits/KCI/releases/download/v1.0.0/KCI-1.0.0-win-x64.zip
+
 ## 功能
 
 - CPU：静态参数、实时占用、封装温度、负载曲线、占用应用处置。
